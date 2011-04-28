@@ -1,0 +1,13 @@
+*~
+*/*~
+*/*/*~
+*/*/*/*~
+*/*/*/*/*~
+erl_crash.dump
+*/erl_crash.dump
+*/*/erl_crash.dump
+*/*/*/erl_crash.dump
+*/*/ebin/
+*/*/test/*.beam
+*/*/.eunit
+msg/mq_speed/rel/mq/

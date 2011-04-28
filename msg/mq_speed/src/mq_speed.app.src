@@ -1,0 +1,15 @@
+{application, mq_speed,
+ [
+  {id,  "MQ-speed"},
+  {vsn, "0.0.1"},
+  {description, "Msg Queuing speed tests"},
+  {registered, [mq_speed_sup]},
+  {applications, [
+                  kernel,
+                  stdlib,
+                  gs,
+                  appmon
+                 ]},
+  {mod, {mq_speed, []}},
+  {env, []}
+]}.
