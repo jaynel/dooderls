@@ -9,7 +9,7 @@
 -export([init/1]).
 
 %% Helper macro for declaring children of supervisor
--define(CHILD(I, Type), {I, {I, start_link, []}, permanent, 5000, Type, [I]}).
+-define(CHILD(I, StartFn, Type), {I, {I, StartFn, []}, permanent, 5000, Type, [I]}).
 
 %% ===================================================================
 %% API functions
@@ -23,5 +23,7 @@ start_link() ->
 %% ===================================================================
 
 init([]) ->
-    {ok, { {one_for_one, 5, 10}, [?CHILD(mq, worker)]} }.
+    RawServer = ?CHILD(mq, start_loop, worker),
+    GenServer = ?CHILD(mq, start_gen, worker),
+    {ok, { {one_for_one, 5, 10}, [RawServer, GenServer]} }.
 
