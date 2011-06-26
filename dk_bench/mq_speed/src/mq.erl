@@ -120,8 +120,8 @@ loop(Caller) ->
     receive {last} -> ok
     after   ?QUEUE_FILL_TIME -> ok
     end,
-    %% {Time, {_Msgs, Count}} = timer:tc(?MODULE, unload_all_proc_lib_msgs, [[], 0]),
     {Time, {_Msgs, Count}} = timer:tc(?MODULE, unload_all_proc_lib_msgs, [[], 0]),
+    %% {Time, {_Msgs, Count}} = timer:tc(?MODULE, unload_any_proc_lib_msgs, [[], 0]),
     Caller ! {proc_lib, Count, Time},
     ok.
 

@@ -1,9 +1,9 @@
 
 ## Name of the node
--name mq@127.0.0.1
+-name dk_bench@127.0.0.1
 
 ## Cookie for distributed erlang
--setcookie mq
+-setcookie dk_bench
 
 ## Heartbeat management; auto-restarts VM if it dies or becomes unresponsive
 ## (Disabled by default..use with caution!)

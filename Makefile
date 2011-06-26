@@ -1,8 +1,10 @@
 all:
 	@rebar compile
 
-dialyze: all
-	dialyzer -Wrace_conditions msg/mq_speed/ebin
+dialyze: dial_mqs
+
+dial_mqs:
+	dialyzer -Wrace_conditions dk_bench/mq_speed/ebin
 
 gc:
 	@echo 'Removing all emacs backup files'
@@ -18,9 +20,9 @@ gc:
     fi \
   done
 
-mqrel:
-	@echo Generating mq release
-	(cd msg/mq_speed/rel; rebar generate)
+rel:
+	@echo Generating dk_bench release
+	(cd dk_bench/rel; rebar generate)
 
 clean:
 	@rebar clean
