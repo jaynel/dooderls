@@ -4,12 +4,14 @@
   {vsn, "0.0.1"},
   {description, "Msg Queuing speed tests"},
   {registered, [mq_speed_sup]},
-  {applications, [
-                  kernel,
-                  stdlib,
-                  gs,
-                  appmon
-                 ]},
+  {applications,
+   [
+    kernel,
+    stdlib,
+    sasl,
+    gs,
+    appmon
+   ]},
   {mod, {mq_speed, []}},
   {env, []}
 ]}.
