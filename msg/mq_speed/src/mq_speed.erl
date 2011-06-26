@@ -9,8 +9,8 @@
 %% Application callbacks
 %% ===================================================================
 
--spec start() -> {ok, pid()} | {error, any()} | ignore.
--spec start(any(), any()) -> {ok, pid()} | {error, any()} | ignore.
+-spec start() -> {ok, pid()}.
+-spec start(any(), any()) -> {ok, pid()}.
 -spec stop([]) -> ok.
 
 %% @doc Start the application's root supervisor in erl listener.
