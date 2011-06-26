@@ -23,7 +23,11 @@ start_link() ->
 %% ===================================================================
 
 init([]) ->
-    RawServer = ?CHILD(mq, start_loop, worker),
-    GenServer = ?CHILD(mq, start_gen, worker),
-    {ok, { {one_for_one, 5, 10}, [RawServer, GenServer]} }.
+    %% RawServer = ?CHILD(mq, start_loop, worker),
+    %% GenServer = ?CHILD(mq, start_gen, worker),
+    {ok, { {one_for_one, 5, 10},
+           [
+            %% RawServer
+            %% , GenServer
+           ]} }.
 
