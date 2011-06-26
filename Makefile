@@ -1,6 +1,9 @@
 all:
 	@rebar compile
 
+dialyze: all
+	dialyzer -Wrace_conditions msg/mq_speed/ebin
+
 gc:
 	@echo 'Removing all emacs backup files'
 	@rm -f *~
@@ -14,3 +17,14 @@ gc:
       done \
     fi \
   done
+
+mqrel:
+	@echo Generating mq release
+	(cd msg/mq_speed/rel; rebar generate)
+
+clean:
+	@rebar clean
+
+realclean: clean
+	@rebar del-deps
+	@rm -rf deps/*
