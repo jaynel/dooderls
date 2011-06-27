@@ -1,13 +1,12 @@
-all:
+all: dkb
+
+dkb:
 	@(cd dk_bench; make all)
 
-dialyze: dial_bench dial_mqs
+dialyze: dial_dkb
 
-dial_bench:
-	dialyzer -Wrace_conditions dk_bench/ebin
-
-dial_mqs:
-	dialyzer -Wrace_conditions dk_bench/mq_speed/ebin
+dial_dkb:
+	@(cd dk_bench; make dialyze)
 
 gc:
 	@echo 'Removing all emacs backup files'
@@ -22,13 +21,21 @@ gc:
     fi \
   done
 
-rel:
-	@echo Generating dk_bench release
-	(cd dk_bench/rel; rebar generate)
+rel: all
+	@echo 'Generating dk_bench release'
+	@(cd rel; rebar generate)
 
-clean:
-	@rebar clean
+clean: clean_dkb
 
-realclean: clean
+clean_dkb:
+	@(cd dk_bench; make clean)
+
+relclean: relclean_dkb
+
+relclean_dkb:
+	@rm -rf rel/dk_bench
+
+realclean: clean relclean
 	@rebar del-deps
 	@rm -rf deps/*
+

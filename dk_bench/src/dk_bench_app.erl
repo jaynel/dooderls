@@ -1,4 +1,4 @@
--module(dk_bench).
+-module(dk_bench_app).
 
 -behaviour(application).
 

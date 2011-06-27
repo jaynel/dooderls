@@ -3,7 +3,8 @@
   {id,  "DK-bench"},
   {vsn, "0.0.1"},
   {description, "Benchmark test server"},
-  {registered, [dk_bench, dk_bench_sup]},
+  {modules, []},
+  {registered, [dk_bench_app, dk_bench_sup, dk_bench_server]},
   {applications,
    [
     kernel,
@@ -12,6 +13,6 @@
     gs,
     appmon
    ]},
-  {mod, {dk_bench, []}},
+  {mod, {dk_bench_app, []}},
   {env, []}
 ]}.
