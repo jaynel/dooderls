@@ -1,7 +1,10 @@
 all:
-	@rebar compile
+	@(cd dk_bench; make all)
 
-dialyze: dial_mqs
+dialyze: dial_bench dial_mqs
+
+dial_bench:
+	dialyzer -Wrace_conditions dk_bench/ebin
 
 dial_mqs:
 	dialyzer -Wrace_conditions dk_bench/mq_speed/ebin
@@ -12,10 +15,9 @@ gc:
 	@rm -f */*~
 	@for CAT in *; do \
     if [[ -d $${CAT} ]]; then \
+      if [[ -d $${CAT} && -f $${CAT}/Makefile ]]; then (cd $${CAT}; make gc); fi; \
       for FEAT in $${CAT}/*; do \
-        if [[ -d $${FEAT} && -f $${FEAT}/Makefile ]]; then \
-          (cd $${FEAT}; make gc); \
-        fi \
+        if [[ -d $${FEAT} && -f $${FEAT}/Makefile ]]; then (cd $${FEAT}; make gc); fi \
       done \
     fi \
   done

@@ -1,4 +1,4 @@
--module(mq_speed).
+-module(dk_bench).
 
 -behaviour(application).
 
@@ -15,11 +15,11 @@
 
 %% @doc Start the application's root supervisor in erl listener.
 start() ->
-    mq_speed_sup:start_link().
+    dk_bench_sup:start_link().
 
 %% @doc Start the application's root supervisor from boot.
 start(_StartType, _StartArgs) ->
-    mq_speed_sup:start_link().
+    dk_bench_sup:start_link().
 
 %% @doc Stop the application.
 stop(_State) -> ok.

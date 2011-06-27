@@ -1,4 +1,4 @@
--module(mq_speed_sup).
+-module(dk_bench_sup).
 
 -behaviour(supervisor).
 
@@ -9,7 +9,7 @@
 -export([init/1]).
 
 %% Helper macro for declaring children of supervisor
--define(CHILD(I, StartFn, Type), {I, {I, StartFn, []}, permanent, 5000, Type, [I]}).
+-define(CHILD(I, Type), {I, {I, start_link, []}, permanent, 5000, Type, [I]}).
 
 -spec start_link() -> {ok, pid()}.
 -spec init(Args::{}) -> {ok, any()}.
@@ -26,11 +26,5 @@ start_link() ->
 %% ===================================================================
 
 init({}) ->
-    %% RawServer = ?CHILD(mq, start_loop, worker),
-    %% GenServer = ?CHILD(mq, start_gen, worker),
-    {ok, { {one_for_one, 5, 10},
-           [
-            %% RawServer
-            %% , GenServer
-           ]} }.
-
+    BenchServer = ?CHILD(dk_bench_server, worker),
+    {ok, { {one_for_one, 5, 10}, [BenchServer]} }.

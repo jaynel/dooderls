@@ -1,9 +1,9 @@
-{application, mq_speed,
+{application, dk_bench,
  [
-  {id,  "MQ-speed"},
+  {id,  "DK-bench"},
   {vsn, "0.0.1"},
-  {description, "Msg Queuing speed tests"},
-  {registered, [mq_speed_sup]},
+  {description, "Benchmark test server"},
+  {registered, [dk_bench, dk_bench_sup]},
   {applications,
    [
     kernel,
@@ -12,6 +12,6 @@
     gs,
     appmon
    ]},
-  {mod, {mq_speed, []}},
+  {mod, {dk_bench, []}},
   {env, []}
 ]}.
