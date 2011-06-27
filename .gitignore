@@ -7,7 +7,8 @@ erl_crash.dump
 */erl_crash.dump
 */*/erl_crash.dump
 */*/*/erl_crash.dump
-*/*/ebin/
-*/*/test/*.beam
-*/*/.eunit
+*/ebin
+*/test/*.beam
+*/src/*.beam
+*/.eunit
 dk_bench/rel/dk_bench/

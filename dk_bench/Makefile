@@ -1,4 +1,9 @@
-compile:
+all: mqs dkb
+
+mqs:
+	@(cd mq_speed; make all)
+
+dkb:
 	@rebar compile
 
 clean: gc
@@ -9,13 +14,13 @@ gc:
 	@rm -f */*~
 	@rm -f */*/*~
 
-eunit: compile
+eunit: all
         ERL_LIBS=$(CURDIR):$(CURDIR)/deps rebar skip_deps=true eunit
 
-dialyze: compile
+dialyze: all
         @rebar skip_deps=true dialyze
 
-rel: compile
+rel: all
 	@echo 'Generating release'
 	@rebar generate
 
