@@ -24,34 +24,78 @@
 -record(dkb_state, {}).
 
 %% External function specifications
--spec start_link() -> {ok, pid()}.
--spec init({}) -> {ok, #dkb_state{}}.
--spec terminate(atom(), #dkb_state{}) -> ok.
--spec code_change(string(), #dkb_state{}, any()) -> {ok, #dkb_state{}}.
 
--spec handle_cast(any(), #dkb_state{}) -> {noreply, #dkb_state{}}.
--spec handle_info(any(), #dkb_state{}) -> {noreply, #dkb_state{}}.
--spec handle_call(atom(), {pid(), reference()}, #dkb_state{})
-                 -> {reply, ok, #dkb_state{}}.
 
 %%%===================================================================
 %%% API
 %%%===================================================================
 
+-spec start_link() -> {ok, pid()}.
+
 start_link() ->
     gen_server:start_link({local, ?SERVER}, ?MODULE, {}, []).
 
+
 %%%===================================================================
-%%% gen_server callbacks
+%%% init, terminate, code_change callbacks
 %%%===================================================================
+
+-spec init({}) -> {ok, #dkb_state{}}.
+-spec terminate(atom(), #dkb_state{}) -> ok.
+-spec code_change(string(), #dkb_state{}, any()) -> {ok, #dkb_state{}}.
 
 init({}) -> {ok, #dkb_state{}}.
 
 %% Unused gen_stream exported callbacks.
 terminate(_Reason, _State) -> ok.
 code_change(_OldVsn, State, _Extra) -> {ok, State}.
+
+
+%%%===================================================================
+%%% handle message callbacks
+%%%===================================================================
+
+-type call_rqst() :: {mq_raw, pos_integer(), pos_integer()} | any().
+-spec handle_call(call_rqst(), {pid(), reference()}, #dkb_state{})
+                 -> {reply, {mq_raw, list()} | ok, #dkb_state{}}.
+
+%% Interface for requesting benchmark runs.
+handle_call({mq_raw, NumMsgs}, _From, #dkb_state{} = State) ->
+    {proc_lib, NumMsgs, Props} = mq_raw:run_test(NumMsgs, mq_data:msgs()),
+    TimingProps = [ {Key, {Micros / 1000, milliseconds},
+                     {Micros / NumMsgs, microseconds_per_msg}}
+                    || {Key, Micros} <- Props ],
+    {reply, {mq_raw, TimingProps}, State};
+handle_call({mq_raw, NumMsgs, TimesToRun}, _From, #dkb_state{} = State) ->
+    PropList = mq_raw:run_test(NumMsgs, TimesToRun, mq_data:msgs()),
+    TimingProps =
+        [
+         [
+          {Key, {Micros / 1000, ms},
+           {int_ceil(Micros / NumMsgs * 1000),
+            nanos_per_msg}} || {Key, Micros} <- Props
+         ] || {proc_lib, _N, Props} <- PropList
+        ],
+    {reply, {mq_raw, TimingProps}, State};
+handle_call(_Request, _From, State) ->
+    {reply, ok, State}.
+
+
+-spec handle_cast(any(), #dkb_state{}) -> {noreply, #dkb_state{}}.
+-spec handle_info(any(), #dkb_state{}) -> {noreply, #dkb_state{}}.
+
 handle_cast(_Msg, State) ->  {noreply, State}.
 handle_info(_Info, State) -> {noreply, State}.
 
-%% Interface for requesting benchmark runs.
-handle_call(_Request, _From, State) -> {reply, ok, State}.
+
+%%%===================================================================
+%%% Internal functions
+%%%===================================================================
+
+int_ceil(X) ->
+     T = trunc(X),
+     if
+         X > T -> T + 1;
+         true  -> T
+     end.
+
