@@ -55,16 +55,16 @@ code_change(_OldVsn, State, _Extra) -> {ok, State}.
 %%% handle message callbacks
 %%%===================================================================
 
--type call_rqst() :: {mq_raw, pos_integer(), pos_integer()} | any().
+-type call_rqst() :: {mq_raw, pos_integer} |{mq_raw, pos_integer(), pos_integer()} | any().
 -spec handle_call(call_rqst(), {pid(), reference()}, #dkb_state{})
                  -> {reply, {mq_raw, list()} | ok, #dkb_state{}}.
 
 %% Interface for requesting benchmark runs.
 handle_call({mq_raw, NumMsgs}, _From, #dkb_state{} = State) ->
-    {proc_lib, NumMsgs, Props} = mq_raw:run_test(NumMsgs, mq_data:msgs()),
-    TimingProps = [ {Key, {Micros / 1000, milliseconds},
-                     {Micros / NumMsgs, microseconds_per_msg}}
-                    || {Key, Micros} <- Props ],
+    [{proc_lib, NumMsgs, Props}] = mq_raw:run_test(NumMsgs, 1, mq_data:msgs()),
+     TimingProps = [ {Key, {Micros / 1000, milliseconds},
+                      {Micros / NumMsgs, microseconds_per_msg}}
+                     || {Key, Micros} <- Props ],
     {reply, {mq_raw, TimingProps}, State};
 handle_call({mq_raw, NumMsgs, TimesToRun}, _From, #dkb_state{} = State) ->
     PropList = mq_raw:run_test(NumMsgs, TimesToRun, mq_data:msgs()),

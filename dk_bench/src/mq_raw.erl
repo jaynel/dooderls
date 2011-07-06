@@ -14,7 +14,7 @@
 -type timing_result() :: {send_time | recv_time, pos_integer()}.
 -type run_result() :: {proc_lib, pos_integer(), [timing_result(), ...]}.
 
--spec run_test(pos_integer(), pos_integer(), mq_data:msg_set()) -> run_result() | none.
+-spec run_test(pos_integer(), non_neg_integer(), mq_data:msg_set()) -> [run_result() | none].
 -spec wait_and_get_results(pos_integer(), pos_integer()) ->  run_result() | none.
 -spec gen_msgs(non_neg_integer(), mq_data:msg_set(), list()) -> list().
 -spec send_msgs(pid(), list()) -> {last}.
