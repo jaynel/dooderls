@@ -28,10 +28,8 @@ rel: all
 	@echo 'Generating dk_bench release'
 	@(cd rel; rebar generate)
 
-clean: clean_dkb
-
-clean_dkb:
-	@(cd dk_bench; make clean)
+clean:
+	@rebar clean
 
 relclean: relclean_dkb
 
@@ -42,3 +40,6 @@ realclean: clean relclean
 	@rebar del-deps
 	@rm -rf deps/*
 
+
+eunit: all
+	ERL_LIBS=$(CURDIR):$(CURDIR)/deps rebar skip_deps=true eunit
