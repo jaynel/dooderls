@@ -1,12 +1,15 @@
-all: dkb
+all: deps/yaws compile
 
-dkb:
-	@(cd dk_bench; make all)
+deps/yaws:
+	@rebar get-deps
+
+compile:
+	@rebar compile
 
 dialyze: dial_dkb
 
 dial_dkb:
-	@(cd dk_bench; make dialyze)
+	dialyzer -Wrace_conditions dk_bench/ebin
 
 gc:
 	@echo 'Removing all emacs backup files'
