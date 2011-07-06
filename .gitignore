@@ -12,3 +12,4 @@ erl_crash.dump
 */src/*.beam
 */.eunit
 rel/dk_bench/
+deps/
