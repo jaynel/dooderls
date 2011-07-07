@@ -1,0 +1,18 @@
+{application, dk_yaws,
+ [
+  {id,  "DK-yaws"},
+  {vsn, "0.0.1"},
+  {description, "Embedded yaws webserver"},
+  {modules, []},
+  {registered, [dk_yaws_sup, dk_yaws_server]},
+  {applications,
+   [
+    kernel,
+    stdlib,
+    sasl,
+    gs,
+    appmon
+   ]},
+  {mod, {dk_yaws_app, []}},
+  {env, []}
+]}.

@@ -13,6 +13,7 @@
     gs,
     appmon
    ]},
+  {included_applications, [yaws, dk_yaws]},
   {mod, {dk_bench_app, []}},
   {env, []}
 ]}.

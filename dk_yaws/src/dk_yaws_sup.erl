@@ -1,4 +1,4 @@
--module(dk_bench_sup).
+-module(dk_yaws_sup).
 
 -behaviour(supervisor).
 
@@ -9,8 +9,7 @@
 -export([init/1]).
 
 %% Helper macro for declaring children of supervisor
--define(CHILD(I, ARGS), {I, {I, start_link, ARGS}, permanent, 5000, worker, [I]}).
--define(SUPER(I, ARGS), {I, {I, start_link, ARGS}, permanent, infinity, supervisor, [I]}).
+-define(CHILD(I, Type), {I, {I, start_link, []}, transient, 5000, Type, [I]}).
 
 -spec start_link() -> {ok, pid()}.
 -spec init(Args::{}) -> {ok, any()}.
@@ -27,7 +26,5 @@ start_link() ->
 %% ===================================================================
 
 init({}) ->
-    YawsSup = ?SUPER(dk_yaws_sup, []),
-    BenchServer = ?CHILD(dk_bench_server, []),
-    {ok, { {one_for_one, 5, 10}, [YawsSup, BenchServer]} }.
-
+    YawsServer = ?CHILD(dk_yaws_server, worker),
+    {ok, { {one_for_all, 0, 1}, [YawsServer]} }.
