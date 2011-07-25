@@ -1,6 +1,8 @@
 all: deps compile
 
-deps:
+deps: deps/yaws
+
+deps/yaws:
 	@rebar get-deps
 
 compile:
