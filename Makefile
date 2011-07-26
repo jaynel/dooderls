@@ -8,7 +8,7 @@ deps/yaws:
 compile:
 	@rebar compile
 
-dialyze: dial_dkb dial_dky
+dialyze: all dial_dkb dial_dky
 
 dial_dkb:
 	dialyzer -Wrace_conditions dk_bench/ebin
