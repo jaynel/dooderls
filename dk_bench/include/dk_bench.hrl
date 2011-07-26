@@ -1,0 +1,1 @@
+-type valid_fun_types() :: fun_call | bin_comp | tuple_inx.
