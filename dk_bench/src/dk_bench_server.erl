@@ -57,16 +57,16 @@ mq_raw(NumMsgs, TimesToRun) ->
 
 
 %% Interface for testing function call speeds.
--spec fun_call(pos_integer(), valid_fun_types()) -> list().
--spec fun_call(pos_integer(), pos_integer(), valid_fun_types()) -> list().
+-spec fun_call(valid_fun_types(), pos_integer()) -> list().
+-spec fun_call(valid_fun_types(), pos_integer(), pos_integer()) -> list().
 
 %% @doc Call a simple function LoopCount times.
-fun_call(LoopCount, Fun) ->
-    gen_server:call(?SERVER, {fun_call, LoopCount, Fun}).
+fun_call(Fun, LoopCount) ->
+    gen_server:call(?SERVER, {fun_call, Fun, LoopCount}).
 
 %% @doc Call a simple function repeating it TimesToRun times.
-fun_call(LoopCount, TimesToRun, Fun) ->
-    gen_server:call(?SERVER, {fun_call, LoopCount, TimesToRun, Fun}).
+fun_call(Fun, LoopCount, TimesToRun) ->
+    gen_server:call(?SERVER, {fun_call, Fun, LoopCount, TimesToRun}).
     
 
 %%%===================================================================

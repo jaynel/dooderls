@@ -32,7 +32,7 @@ run_test(_Fun, _LoopCount, 0, Results) ->
 run_test(Fun, LoopCount, NumTimes, Results)
   when is_integer(LoopCount), is_integer(NumTimes) ->
     garbage_collect(),
-    {ok, _P1} = start_loop(self(), LoopCount, Fun),
+    {ok, _P1} = start_loop(Fun, self(), LoopCount),
     NewResults = wait_and_get_results(LoopCount),
     run_test(Fun, LoopCount, NumTimes-1, [NewResults | Results]).
 
@@ -46,17 +46,17 @@ wait_and_get_results(Count) ->
 
 
 %% ============= proc_lib =====================================================
--spec loop(pid(), pos_integer(), valid_fun_types()) -> ok.
--spec start_loop(pid(), pos_integer(), valid_fun_types()) -> {ok, pid()}.
+-spec loop(valid_fun_types(), pid(), pos_integer()) -> ok.
+-spec start_loop(valid_fun_types(), pid(), pos_integer()) -> {ok, pid()}.
 
-start_loop(Caller, LoopCount, Fun) ->
-    Pid = proc_lib:spawn(?MODULE, loop, [Caller, LoopCount, Fun]),
+start_loop(Fun, Caller, LoopCount) ->
+    Pid = proc_lib:spawn(?MODULE, loop, [Fun, Caller, LoopCount]),
     {ok, Pid}.
 
-loop(Caller, LoopCount, Fun) ->
+loop(Fun, Caller, LoopCount) ->
     Args = case Fun of
                fun_call ->  [LoopCount];
-               bin_comp ->  [[3,5,7,9], << 0:(8*LoopCount) >> ];
+               bin_comp ->  [[X*8 || X <- [3,5,7,9]], << 0:(8*LoopCount) >> ];
                tuple_inx -> [[3,5,7,9], erlang:make_tuple(LoopCount, 27)]
            end,
     {Time, _Val} = timer:tc(?MODULE, Fun, Args),
