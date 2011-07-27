@@ -13,3 +13,4 @@ erl_crash.dump
 */.eunit
 rel/dk_bench/
 deps/
+cmt.txt
