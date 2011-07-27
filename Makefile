@@ -20,14 +20,8 @@ gc:
 	@echo 'Removing all emacs backup files'
 	@rm -f *~
 	@rm -f */*~
-	@for CAT in *; do \
-    if [[ -d $${CAT} ]]; then \
-      if [[ -d $${CAT} && -f $${CAT}/Makefile ]]; then (cd $${CAT}; make gc); fi; \
-      for FEAT in $${CAT}/*; do \
-        if [[ -d $${FEAT} && -f $${FEAT}/Makefile ]]; then (cd $${FEAT}; make gc); fi \
-      done \
-    fi \
-  done
+	@rm -f */*/*~
+	@rm -f */*/*/*~
 
 rel: all
 	@echo 'Generating dk_bench release'
