@@ -27,4 +27,4 @@ start_link() ->
 
 init({}) ->
     YawsServer = ?CHILD(dk_yaws_server, worker),
-    {ok, { {one_for_all, 0, 1}, [YawsServer]} }.
+    {ok, { {one_for_all, 5, 10}, [YawsServer]} }.

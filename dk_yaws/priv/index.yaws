@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<head>
+  <title>DuoMark Erlang Ops Relative Benchmark</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/css/reset.css" media="screen, projection">
+  <link rel="stylesheet" href="/css/theme.css" media="screen, projection">
+</head>
+<body>
+  <div id="page">
+    <div class="desc section">
+      <h1>Choose Benchmark</h1>
+
+      <div class="main">
+        <form method="post" action="/bench_results.yaws">
+          <p>
+            <label for="bench">Choose a benchmark test to run:</label>
+            <input name="bench" type="text" placeholder="" size=95 pattern=".*/" autofocus required />
+          </p>
+          <b style="float:left; margin-right:400px"><input type="submit" /></b>
+          <b style="float:right"><input type="reset" /></b>
+        </form>
+      </div> <!-- /end .main -->
+
+      <div class="sidebar">
+      </div> <!-- /end .sidebar -->
+
+    </div> <!-- /end .desc.section -->
+  </div> <!-- /end #page -->
+</body>
+</html>

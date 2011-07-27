@@ -8,7 +8,7 @@ start_link() ->
 run() ->
     Id = "yaws_embedded",
     GconfList = [{id, Id}],
-    Docroot = "/tmp",
+    Docroot = get_app_env(docroot, "/var/yaws/www"),
     SconfList = [{port, 8888},
                  {servername, "yon"},
                  {listen, {0,0,0,0}},
@@ -19,11 +19,25 @@ run() ->
     yaws_api:setconf(GC, SCList),
     {ok, self()}.
 
-%%     wait().
 
-%% wait() ->
-%%     receive
-%%         Any -> Any, wait()
-%%     end.
+%%--------------------------------------------------------------------
+%% @doc
+%%   Get config parameter for the running application.
+%%
+%%   Check the current application context, then the init
+%%   context, and finally return a default if neither has
+%%   a value.
+%% @end
+%%--------------------------------------------------------------------
+-spec get_app_env(atom(), any()) -> any().
 
+get_app_env(Param, Default) ->
+    case application:get_env(Param) of
+        {ok, Val} -> Val;
+        undefined ->
+            case init:get_argument(Param) of
+                {ok, [[FirstVal | _OtherVals], _MoreVals]} -> FirstVal;
+                error -> Default
+            end
+    end.
              
