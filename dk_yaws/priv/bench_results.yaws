@@ -1,0 +1,24 @@
+<erl>
+out(A) ->
+  Query = yaws_api:parse_query(A),
+  BenchType = proplists:get_value("bench", Query),
+  ElemCount = proplists:get_value("elems", Query),
+  NumTimes = proplists:get_value("times", Query),
+  bench(list_to_atom(BenchType), list_to_integer(ElemCount), list_to_integer(NumTimes)).
+
+bench(mq_raw, NumMsgs, NumTimes) ->
+  Proplist = dk_bench_server:mq_raw(NumMsgs, NumTimes),
+  {ehtml, [{p, [], "Send/Receive results"},
+           {p, [], result_to_json(Proplist)}]};
+bench(FunType, ElemCount, NumTimes) ->
+  Proplist = dk_bench_server:fun_call(FunType, ElemCount, NumTimes),
+  {content, "application/json", result_to_json(Proplist)}.
+%%  {ehtml, [{p, [], io_lib:format("Function ~w results", [FunType])},
+%%           {p, [], result_to_json(Proplist)}]}.
+
+result_to_json({Type, Results}) ->
+  ["{\"type\":\"", atom_to_list(Type), "\", \"results\": [",
+    [ ["{\"loop_time\": {\"ms\": ", io_lib:format("~p", [MS]), ", \"npm\": ", io_lib:format("~p", [NPM]), "}},"]
+       || [{loop_time, {MS, ms}, {NPM, nanos_per_msg}}] <- Results],
+   "{}]}"].
+</erl>
