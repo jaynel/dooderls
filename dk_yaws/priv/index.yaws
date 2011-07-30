@@ -3,27 +3,36 @@
   <meta charset="UTF-8">
   <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 
-  <title>DuoMark Erlang Ops Relative Benchmark</title>
+  <title>DuoMark Comparative Erlang Benchmarking</title>
 
   <link rel="stylesheet" href="/css/reset.css" media="screen, projection">
   <link rel="stylesheet" href="/css/theme.css" media="screen, projection">
-  <link rel="stylesheet" href="/css/d3.css" media="screen, projection">
 
   <style>
-  .chart div {
+  .bench_graph div {
     font: 10px sans-serif;
     background-color: steelblue;
     text-align: right;
     padding: 3px;
     margin: 1px;
+    margin-left:20px;
     color: white;
   }
   </style>
 </head>
 <body>
-  <div id="page">
-    <div class="desc section">
-      <div class="main">
+  <div class="page">
+   <div class="content">
+    <header class="page_hdr">
+      <h1>Erlang Benchmark Comparisons</h1>
+    </header>
+
+    <section class="benchmark">
+      <header class="bench_form_hdr">
+        <h2>Select Test</h2>
+      </header>
+      <section class="bench_form">
+
         <script src="/js/d3.min.js"></script>
         <script>
           function d3_submit() {
@@ -38,7 +47,7 @@
                for (i=0;i<len-1;i++) {
                  data.push(json.results[i].loop_time.npm);
                }
-               var chart = d3.select("#chart");
+               var chart = d3.select(".bench_graph");
                chart.selectAll("div").data(data).enter().append("div")
                     .style("width", function(d) { return d * 10 + "px"; })
                     .text(function(d) { return d; });
@@ -46,29 +55,45 @@
             })
           }
         </script>
+
         <form name="benchmark_request" method="get">
           <ul>
             <li>
-              <label for="bench">Benchmark</label>
-              <select name="bench">
+              <label for="bench" style="text-align:left">Benchmark</label>
+              <select name="bench" style="text-align:right">
                 <option value="fun_call">Function Call</option>
                 <option value="bin_comp">Binary Comprehension</option>
                 <option value="tuple_inx">Tuple Indexing</option>
                 <option value="mq_raw">Message Send/Receive</option>
               </select>
             </li>
-            <li><label for="elems">Elements</label><input name="elems" type="number" min="1" max="1000000" value="1000"></li>
-            <li><label for="times">Repeat</label><input name="times" type="number" min="1" max="100" value="10"></li>
+            <li><label for="elems" style="text-align:left">Elements</label>
+                <input name="elems" type="number" min="1" max="1000000" value="1000"></li>
+            <li><label for="times" style="text-align:left">Repeat</label>
+                <input name="times" type="number" min="1" max="100" value="10"></li>
           </ul>
           <b><input type="button" value="Run Benchmark" onclick="d3_submit()" /></b>
         </form>
-        <div id="chart" class="chart"></div>
-      </div> <!-- /end .main -->
+      </section>
+      <footer class="bench_form_ftr">
+      </footer>
+    </section> <!-- /end .benchmark -->
 
-      <div class="sidebar">
-      </div> <!-- /end .sidebar -->
+    <section class="main">
+      <header class="main_hdr">
+        <h2>Performance Results</h2>
+      </header>
+      <section id="bench_graph" class="bench_graph">
+      </section>
+      <section class="bench_data">
+      </section>
+      <footer class="main_ftr">
+      </footer>
+    </section> <!-- /end .main -->
 
-    </div> <!-- /end .desc.section -->
-  </div> <!-- /end #page -->
+    <footer class="page_ftr">
+    </footer>
+   </div> <!-- /end .content -->
+  </div> <!-- /end .page -->
 </body>
 </html>
