@@ -1,23 +1,5 @@
-.page {
-  background-color: #FFFFFF;
-  width: 90%;
-  height: 100%;
-  margin: 36px auto;
-}
-
-.page_hdr {
-  clear: both;
-  height: 60px;
-  border-bottom: solid #555555 1px;
-}
-.page_ftr {
-  clear: both;
-  height: 60px;
-  border-top: solid #555555 1px;
-}
-
 body {
-  background-color: #EEEEEE;
+  background-color: #FFFFFF;
   color: #4B484E;
   font: normal 100% sans-serif;
 }
@@ -26,7 +8,7 @@ h1 {
   font-size: 1.25em;     /* 20px/16px */
   font-style: italic;
   font-weight: normal;
-  color: #4B4888;
+  color: #9D2D23;
 }
 
 h2 {
@@ -39,6 +21,23 @@ h3 {
   font-size: 0.875em;   /* 14px/16px */
   font-style: italic;
   font-weight: normal;
+}
+
+.page {
+  background-color: #FFFFFF;
+  width: 90%;
+  height: 100%;
+  margin: 36px auto;
+}
+
+.page_hdr {
+  clear: both;
+  height: 60px;
+  border-bottom: solid #9D2D23 1px;
+}
+.page_ftr {
+  clear: both;
+  border-top: solid #9D2D23 1px;
 }
 
 .content {
@@ -67,7 +66,6 @@ h3 {
 }
 .content .bench_form_ftr {
   height: 60px;
-  border-top: solid #999999 1px;
 }
 
 .content .main {
@@ -84,9 +82,6 @@ h3 {
 }
 .main .main_ftr    {
   clear: both;
-  height: 30px;
-  line-height: 30px;
-  text-align: center;
 }
 .main .bench_graph {
   height: 200px;

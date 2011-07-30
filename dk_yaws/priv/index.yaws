@@ -3,6 +3,7 @@
   <meta charset="UTF-8">
   <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 
+  <meta name="Copyright" content="&copy;2005-2006 DuoMark International, Inc." />
   <title>DuoMark Comparative Erlang Benchmarking</title>
 
   <link rel="stylesheet" href="/css/reset.css" media="screen, projection">
@@ -11,7 +12,7 @@
   <style>
   .bench_graph div {
     font: 10px sans-serif;
-    background-color: steelblue;
+    background-color: #9D2D23;
     text-align: right;
     padding: 3px;
     margin: 1px;
@@ -92,6 +93,7 @@
     </section> <!-- /end .main -->
 
     <footer class="page_ftr">
+      <a href="http://www.duomark.com/"><img style="float:right" src="/icons/dmlogo.gif" valign="bottom"></a>
     </footer>
    </div> <!-- /end .content -->
   </div> <!-- /end .page -->
