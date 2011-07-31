@@ -30,7 +30,7 @@
 
     <section class="benchmark">
       <header class="bench_form_hdr">
-        <h2>Select Test</h2>
+        <h2>Benchmark Selection</h2>
       </header>
       <section class="bench_form">
 
@@ -38,40 +38,56 @@
         <script>
           function d3_submit() {
             var form = document.benchmark_request;
-            var bench_choice = form.bench.value;
-            var elems = form.elems.value;
-            var times = form.times.value;
-            var url = window.location + "bench_results.yaws?bench=" + bench_choice + "&elems=" + elems + "&times=" + times;
+            var url = [
+                       window.location, 'bench_results.yaws?',
+                       'bench_type=',   form.bench_type.value,
+                       '&bench=',        form.bench.value,
+                       '&datasize=',    '100',
+                       '&num_execs=',   form.num_execs.value,
+                       '&test_times=',  form.test_times.value
+                      ].join('');
             d3.json(url, function(json) {
-               var len = json.results.length;
-               var data = [];
-               for (i=0;i<len-1;i++) {
-                 data.push(json.results[i].loop_time.npm);
-               }
-               var chart = d3.select(".bench_graph");
-               chart.selectAll("div").data(data).enter().append("div")
-                    .style("width", function(d) { return d * 10 + "px"; })
-                    .text(function(d) { return d; });
-               var x = d3.scale.linear().domain([0, d3.max(data)]).range(["0px", "420px"]);
-            })
+                var len = json.results.length;
+                var data = [];
+                for (i=0;i<len-1;i++) {
+                  data.push(json.results[i].loop_time.npm);
+                }
+                var chart = d3.select(".bench_graph");
+                chart.selectAll("div").data(data).enter().append("div")
+                     .style("width", function(d) { return d * 2 + "px"; })
+                     .text(function(d) { return d; });
+                var x = d3.scale.linear().domain([0, d3.max(data)]).range(["0px", "250px"]);
+            });
           }
         </script>
 
         <form name="benchmark_request" method="get">
           <ul>
             <li>
-              <label for="bench" style="text-align:left">Benchmark</label>
-              <select name="bench" style="text-align:right">
-                <option value="fun_call">Function Call</option>
-                <option value="bin_comp">Binary Comprehension</option>
-                <option value="tuple_inx">Tuple Indexing</option>
-                <option value="mq_raw">Message Send/Receive</option>
+              <!-- label for="bench_type" style="text-align:left">Benchmark Type</label -->
+              <select name="bench_type" style="text-align:right" required>
+                <option value="data_access">Data Access</option>
+                <option value="operator">Operators</option>
+                <option value="iterate">Iteration</option>
+                <option value="process">Process</option>
+                <option value="message">Messaging</option>
+                <option value="data_manip">Data Manipulation</option>
               </select>
             </li>
-            <li><label for="elems" style="text-align:left">Elements</label>
-                <input name="elems" type="number" min="1" max="1000000" value="1000"></li>
-            <li><label for="times" style="text-align:left">Repeat</label>
-                <input name="times" type="number" min="1" max="100" value="10"></li>
+            <li>
+              <!-- label for="bench" style="text-align:left">Benchmark</label -->
+              <select name="bench" style="text-align:right" required>
+                <option value="list_nth">List Nth</option>
+                <option value="list_head">List Head</option>
+                <option value="binary_raw">Native Binary</option>
+                <option value="binary_at">Binary Module</option>
+                <option value="tuple_inx">Tuple Index</option>
+              </select>
+            </li>
+            <li><label for="num_execs" style="text-align:left">Number of data accesses</label>
+                <input name="num_execs" type="number" min="1" max="1000000" value="1000" required></li>
+            <li><label for="test_times" style="text-align:left">Test runs</label>
+                <input name="test_times" type="number" min="1" max="100" value="10" required></li>
           </ul>
           <b><input type="button" value="Run Benchmark" onclick="d3_submit()" /></b>
         </form>

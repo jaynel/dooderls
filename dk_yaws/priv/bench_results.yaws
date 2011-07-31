@@ -1,20 +1,21 @@
 <erl>
 out(A) ->
   Query = yaws_api:parse_query(A),
-  BenchType = proplists:get_value("bench", Query),
-  ElemCount = proplists:get_value("elems", Query),
-  NumTimes = proplists:get_value("times", Query),
-  bench(list_to_atom(BenchType), list_to_integer(ElemCount), list_to_integer(NumTimes)).
+  [BenchType, Bench, DataSize, ExecCount, NumTimes]
+    = [proplists:get_value(Attr, Query)
+       || Attr <- ["bench_type", "bench", "datasize", "num_execs", "test_times"]],
+  bench(list_to_atom(BenchType), list_to_atom(Bench), list_to_integer(DataSize),
+        list_to_integer(ExecCount), list_to_integer(NumTimes)).
 
-bench(mq_raw, NumMsgs, NumTimes) ->
+bench(iterate, FunType, _DataSize, ExecCount, NumTimes) ->
+    Proplist = dk_bench_server:exec(FunType, ExecCount, NumTimes),
+    {content, "application/json", result_to_json(Proplist)};
+bench(data_access, FunType, DataSize, ExecCount, NumTimes) ->
+  Proplist = dk_bench_server:access(FunType, DataSize, ExecCount, NumTimes),
+  {content, "application/json", result_to_json(Proplist)};
+bench(message, mq_raw, _DataSize, NumMsgs, NumTimes) ->
   Proplist = dk_bench_server:mq_raw(NumMsgs, NumTimes),
-  {ehtml, [{p, [], "Send/Receive results"},
-           {p, [], result_to_json(Proplist)}]};
-bench(FunType, ElemCount, NumTimes) ->
-  Proplist = dk_bench_server:fun_call(FunType, ElemCount, NumTimes),
   {content, "application/json", result_to_json(Proplist)}.
-%%  {ehtml, [{p, [], io_lib:format("Function ~w results", [FunType])},
-%%           {p, [], result_to_json(Proplist)}]}.
 
 result_to_json({Type, Results}) ->
   ["{\"type\":\"", atom_to_list(Type), "\", \"results\": [",

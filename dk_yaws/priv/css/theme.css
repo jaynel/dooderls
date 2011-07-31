@@ -8,6 +8,7 @@ h1 {
   font-size: 1.25em;     /* 20px/16px */
   font-style: italic;
   font-weight: normal;
+  text-align: center;
   color: #9D2D23;
 }
 
@@ -15,6 +16,7 @@ h2 {
   font-size: 1.00em;    /* 16px/16px */
   font-style: italic;
   font-weight: normal;
+  color: #9D2D23;
 }
 
 h3 {
@@ -32,7 +34,7 @@ h3 {
 
 .page_hdr {
   clear: both;
-  height: 60px;
+  height: 40px;
   border-bottom: solid #9D2D23 1px;
 }
 .page_ftr {
