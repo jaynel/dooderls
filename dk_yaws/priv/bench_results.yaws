@@ -13,7 +13,10 @@ bench(iterate, FunType, _DataSize, ExecCount, NumTimes) ->
 bench(data_access, FunType, DataSize, ExecCount, NumTimes) ->
   Proplist = dk_bench_server:access(FunType, DataSize, ExecCount, NumTimes),
   {content, "application/json", result_to_json(Proplist)};
-bench(message, mq_raw, _DataSize, NumMsgs, NumTimes) ->
+bench(message, recv_msgs, _DataSize, NumMsgs, NumTimes) ->
+  Proplist = dk_bench_server:mq_raw(NumMsgs, NumTimes),
+  {content, "application/json", result_to_json(Proplist)};
+bench(message, send_msgs, _DataSize, NumMsgs, NumTimes) ->
   Proplist = dk_bench_server:mq_raw(NumMsgs, NumTimes),
   {content, "application/json", result_to_json(Proplist)}.
 

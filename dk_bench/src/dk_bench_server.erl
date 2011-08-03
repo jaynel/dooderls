@@ -63,11 +63,11 @@ mq_raw(NumMsgs, TimesToRun) ->
 
 %% @doc Call a simple function LoopCount times.
 exec(Fun, LoopCount) ->
-    gen_server:call(?SERVER, {fun_call, Fun, LoopCount}).
+    gen_server:call(?SERVER, {exec, Fun, LoopCount}).
 
 %% @doc Call a simple function repeating it TimesToRun times.
 exec(Fun, LoopCount, TimesToRun) ->
-    gen_server:call(?SERVER, {fun_call, Fun, LoopCount, TimesToRun}).
+    gen_server:call(?SERVER, {exec, Fun, LoopCount, TimesToRun}).
 
 
 %% Interface for testing data access speeds.
