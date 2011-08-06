@@ -108,8 +108,8 @@ code_change(_OldVsn, State, _Extra) -> {ok, State}.
 -type exec_call_rqst() :: {exec, valid_exec_types(), pos_integer()}
                        | {exec, valid_exec_types(), pos_integer(), pos_integer()}.
 
--type access_call_rqst() :: {access, valid_exec_types(), pos_integer(), pos_integer()}
-                          | {access, valid_exec_types(), pos_integer(), pos_integer()}.
+-type access_call_rqst() :: {access, valid_access_types(), pos_integer(), pos_integer()}
+                          | {access, valid_access_types(), pos_integer(), pos_integer()}.
 
 -spec handle_call(mq_call_rqst() | exec_call_rqst() | access_call_rqst(),
                   {pid(), reference()}, #dkb_state{})
@@ -162,7 +162,7 @@ rpt_results([{proc_lib, NumMsgs, Props}]) ->
 rpt_results(PropList) ->
     [
      [
-      {Key, {Micros / 1000, ms}, {int_ceil(Micros / NumMsgs * 1000), nanos_per_msg}}
+      {Key, {Micros / 1000, ms}, {int_ceil(Micros / NumMsgs * 1000), nanos_per}}
       || {Key, Micros} <- Props
      ]  || {proc_lib, NumMsgs, Props} <- PropList
     ].

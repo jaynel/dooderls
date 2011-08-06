@@ -4,6 +4,7 @@ out(A) ->
   [BenchType, Bench, DataSize, ExecCount, NumTimes]
     = [proplists:get_value(Attr, Query)
        || Attr <- ["bench_type", "bench", "datasize", "num_execs", "test_times"]],
+error_logger:error_msg("Iter: ~p~n", [[BenchType, Bench, DataSize, ExecCount, NumTimes]]),
   bench(list_to_atom(BenchType), list_to_atom(Bench), list_to_integer(DataSize),
         list_to_integer(ExecCount), list_to_integer(NumTimes)).
 
@@ -23,6 +24,6 @@ bench(message, send_msgs, _DataSize, NumMsgs, NumTimes) ->
 result_to_json({Type, Results}) ->
   ["{\"type\":\"", atom_to_list(Type), "\", \"results\": [",
     [ ["{\"loop_time\": {\"ms\": ", io_lib:format("~p", [MS]), ", \"npm\": ", io_lib:format("~p", [NPM]), "}},"]
-       || [{loop_time, {MS, ms}, {NPM, nanos_per_msg}}] <- Results],
+       || [{loop_time, {MS, ms}, {NPM, nanos_per}}] <- Results],
    "{}]}"].
 </erl>

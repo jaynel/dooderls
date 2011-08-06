@@ -40,12 +40,12 @@
 
           function d3_submit() {
             var form = document.benchmark_request;
-            var datasize = form.datasize.value ? '&datasize=' + form.datasize.value : '';
+            var datasize = form.datasize.value ? form.datasize.value : 0;
             var url = [
                        window.location, 'bench_results.yaws?',
                        'bench_type=',   form.bench_type.value,
                        '&bench=',       form.bench.value,
-                       datasize,
+                       '&datasize=',    datasize,
                        '&num_execs=',   form.num_execs.value,
                        '&test_times=',  form.test_times.value
                       ].join('');

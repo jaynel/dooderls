@@ -57,7 +57,7 @@ wait_and_get_results(Count) ->
         {proc_lib, Count, LoopMicros} ->
             {proc_lib, Count, [{loop_time, LoopMicros}]}
     after
-        10000 -> none
+        4000 -> none
     end.
 
 
@@ -143,7 +143,7 @@ function_call(Count) when Count > 0 ->
 
 mfa_call(_M, _F, 0) -> ok;
 mfa_call(M, F, Count) when Count > 0 ->
-    M:F([M, F, Count-1]).
+    M:F(M, F, Count-1).
 
 
 %% ============= access funs =====================================================

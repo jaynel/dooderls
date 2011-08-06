@@ -12,8 +12,8 @@ var menu_opts = {
      <option value="operator_divide" disabled>Operator /</option>\n \
      <option value="operator_modulo" disabled>Operator %</option>',
   iterate:
-    '<option value="function">Function Call</option>\n \
-     <option value="mfa">Module:Function(Args)</option>\n \
+    '<option value="function_call">Function Call</option>\n \
+     <option value="mfa_call">Module:Function(Args)</option>\n \
      <option value="list_comp" disabled>List Comprehension</option>\n \
      <option value="list_loop" disabled>List Function Loop</option>\n \
      <option value="binary_comp" disabled>Binary Comprehension</option>\n \
@@ -81,10 +81,10 @@ var menu_opts = {
     operator_times: "",
     operator_divide: "",
     operator_modulo: "",
-    'function':
+    function_call:
       'Tests function calling by calling decr(LoopCount) until it reaches 0.<br>\
        <p>Loop count: <input name="num_execs" type="number" min="1" max="1000000" value="10000" required> (1 - 1000000)</p>',
-    mfa:
+    mfa_call:
       'Tests M:F(A) calling by decrementing LoopCount until it reaches 0.<br>\
        <p>Loop count: <input name="num_execs" type="number" min="1" max="1000000" value="10000" required> (1 - 1000000)</p>',
     list_comp: "",
