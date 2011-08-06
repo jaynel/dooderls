@@ -22,12 +22,16 @@ gc:
 	@rm -f */*~
 	@rm -f */*/*~
 	@rm -f */*/*/*~
+	@rm -f erl_crash.dump
+	@rm -f */erl_crash.dump
+	@rm -f */*/erl_crash.dump
+	@rm -f */*/*/erl_crash.dump
 
 rel: all
 	@echo 'Generating dk_bench release'
 	@(cd rel; rebar generate)
 
-clean:
+clean: gc
 	@rebar clean
 
 relclean: relclean_dkb
