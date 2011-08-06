@@ -7,11 +7,7 @@
   {registered, [dk_yaws_sup, dk_yaws_server]},
   {applications,
    [
-    kernel,
-    stdlib,
-    sasl,
-    gs,
-    appmon
+    kernel, stdlib, sasl, gs, appmon
    ]},
   {mod, {dk_yaws_app, []}},
   {env, []}
