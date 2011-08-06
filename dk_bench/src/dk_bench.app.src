@@ -7,11 +7,7 @@
   {registered, [dk_bench_app, dk_bench_sup, dk_bench_server]},
   {applications,
    [
-    kernel,
-    stdlib,
-    sasl,
-    gs,
-    appmon
+    kernel, stdlib, sasl, gs, appmon
    ]},
   {included_applications, [yaws, dk_yaws]},
   {mod, {dk_bench_app, []}},
