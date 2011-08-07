@@ -23,8 +23,8 @@ var menu_opts = {
      <option value="binary_comp">Binary Comprehension</option>\n \
      <option value="binary_loop">Binary Function Loop</option>',
   process:
-    '<option value="spawn" disabled>Spawn</option>\n \
-     <option value="spawn_link" disabled>Spawn Link</option>\n \
+    '<option value="my_spawn">Spawn</option>\n \
+     <option value="my_spawn_link">Spawn Link</option>\n \
      <option value="exit" disabled>Exit</option>\n \
      <option value="link" disabled>Link / Unlink</option>\n \
      <option value="monitor" disabled>Monitor / Demonitor</option>\n \
@@ -134,8 +134,14 @@ var menu_opts = {
     binary_loop:
       'Tests list comprehension by iterating a list of length LoopCount.<br>\
        <p>Loop count: <input name="num_execs" type="number" min="1" max="1000000" value="10000" required> (1 - 1000000)</p>',
-    spawn: "",
-    spawn_link: "",
+    my_spawn:
+      'Tests spawn by by calling decr(LoopCount) until it reaches 0<br>\
+       and spawning a process each time.<br>\
+       <p>Loop count: <input name="num_execs" type="number" min="1" max="1000000" value="10000" required> (1 - 1000000)</p>',
+    my_spawn_link:
+      'Tests spawn_link by by calling decr(LoopCount) until it reaches 0<br>\
+       and spawning a process each time.<br>\
+       <p>Loop count: <input name="num_execs" type="number" min="1" max="1000000" value="10000" required> (1 - 1000000)</p>',
     exit: "",
     link: "",
     monitor: "",

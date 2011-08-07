@@ -15,6 +15,7 @@
          operator_gt/1, operator_lt/1, operator_eq/1, operator_eeq/1]).
 -export([function_call/1, mfa_call/3, list_comp/1, list_loop/1, binary_comp/1, binary_loop/1]).
 -export([list_nth/2, list_head/2, binary_raw/2, binary_at/2, tuple_inx/2]).
+-export([foo/0, my_spawn/1, my_spawn_link/1]).
 
 -include("dk_bench.hrl").
 
@@ -96,7 +97,11 @@ loop(Fun, Caller, LoopCount) ->
                list_comp       -> [make_random_inxs(LoopCount, ?OPER_MAX)];
                list_loop       -> [make_random_inxs(LoopCount, ?OPER_MAX)];
                binary_comp     -> [list_to_binary(make_random_inxs(LoopCount, ?OPER_MAX))];
-               binary_loop     -> [list_to_binary(make_random_inxs(LoopCount, ?OPER_MAX))]
+               binary_loop     -> [list_to_binary(make_random_inxs(LoopCount, ?OPER_MAX))];
+               
+               %% Process spawns, links, etc...
+               my_spawn        -> [LoopCount];
+               my_spawn_link   -> [LoopCount]
            end,
     {Time, _Val} = timer:tc(?MODULE, Fun, Args),
     Caller ! {proc_lib, LoopCount, Time},
@@ -207,6 +212,18 @@ list_loop([_H|T]) ->
 binary_loop(<<>>) -> ok;
 binary_loop(<< _C, Rest/binary >>) ->
     binary_loop(Rest).
+
+my_spawn(0) -> ok;
+my_spawn(N) ->
+    spawn(?MODULE, foo, []),
+    my_spawn(N-1).
+
+my_spawn_link(0) -> ok;
+my_spawn_link(N) ->
+    spawn_link(?MODULE, foo, []),
+    my_spawn_link(N-1).
+
+foo() -> 8.
      
 
 %% ============= access funs =====================================================

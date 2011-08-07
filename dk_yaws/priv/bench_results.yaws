@@ -16,6 +16,9 @@ bench(operator, FunType, _DataSize, ExecCount, NumTimes) ->
 bench(iterate, FunType, _DataSize, ExecCount, NumTimes) ->
     Proplist = dk_bench_server:exec(FunType, ExecCount, NumTimes),
     {content, "application/json", result_to_json(Proplist)};
+bench(process, FunType, _DataSize, ExecCount, NumTimes) ->
+    Proplist = dk_bench_server:exec(FunType, ExecCount, NumTimes),
+    {content, "application/json", result_to_json(Proplist)};
 bench(message, recv_msgs, _DataSize, NumMsgs, NumTimes) ->
   Proplist = dk_bench_server:mq_raw(NumMsgs, NumTimes),
   {content, "application/json", result_to_json(Proplist, recv_time)};
