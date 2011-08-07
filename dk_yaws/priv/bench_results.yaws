@@ -4,7 +4,6 @@ out(A) ->
   [BenchType, Bench, DataSize, ExecCount, NumTimes]
     = [proplists:get_value(Attr, Query)
        || Attr <- ["bench_type", "bench", "datasize", "num_execs", "test_times"]],
-error_logger:error_msg("Iter: ~p~n", [[BenchType, Bench, DataSize, ExecCount, NumTimes]]),
   bench(list_to_atom(BenchType), list_to_atom(Bench), list_to_integer(DataSize),
         list_to_integer(ExecCount), list_to_integer(NumTimes)).
 
@@ -16,14 +15,22 @@ bench(data_access, FunType, DataSize, ExecCount, NumTimes) ->
   {content, "application/json", result_to_json(Proplist)};
 bench(message, recv_msgs, _DataSize, NumMsgs, NumTimes) ->
   Proplist = dk_bench_server:mq_raw(NumMsgs, NumTimes),
-  {content, "application/json", result_to_json(Proplist)};
+  {content, "application/json", result_to_json(Proplist, recv_time)};
 bench(message, send_msgs, _DataSize, NumMsgs, NumTimes) ->
   Proplist = dk_bench_server:mq_raw(NumMsgs, NumTimes),
-  {content, "application/json", result_to_json(Proplist)}.
+  {content, "application/json", result_to_json(Proplist, send_time)}.
 
 result_to_json({Type, Results}) ->
   ["{\"type\":\"", atom_to_list(Type), "\", \"results\": [",
     [ ["{\"loop_time\": {\"ms\": ", io_lib:format("~p", [MS]), ", \"npm\": ", io_lib:format("~p", [NPM]), "}},"]
        || [{loop_time, {MS, ms}, {NPM, nanos_per}}] <- Results],
+   "{}]}"].
+
+
+result_to_json({Type, Results}, MsgType) ->
+  MsgTimes = [ [ {TestType, Ms, Nano} || {TestType, Ms, Nano} <- R, TestType =:= MsgType ] || R <- Results],
+  ["{\"type\":\"", atom_to_list(Type), "\", \"results\": [",
+    [ ["{\"loop_time\": {\"ms\": ", io_lib:format("~p", [MS]), ", \"npm\": ", io_lib:format("~p", [NPM]), "}},"]
+       || [{MsgType, {MS, ms}, {NPM, nanos_per}}] <- MsgTimes],
    "{}]}"].
 </erl>
