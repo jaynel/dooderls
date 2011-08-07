@@ -13,7 +13,7 @@
 %% Choice of tests to run.
 -export([operator_plus/1, operator_minus/1, operator_times/1, operator_divide/1, operator_rem/1,
          operator_gt/1, operator_lt/1, operator_eq/1, operator_eeq/1]).
--export([function_call/1, mfa_call/3]).
+-export([function_call/1, mfa_call/3, list_comp/1, list_loop/1, binary_comp/1, binary_loop/1]).
 -export([list_nth/2, list_head/2, binary_raw/2, binary_at/2, tuple_inx/2]).
 
 -include("dk_bench.hrl").
@@ -78,6 +78,8 @@ start_loop(Fun, Caller, LoopCount) ->
 
 loop(Fun, Caller, LoopCount) ->
     Args = case Fun of
+
+               %% Operators...
                operator_plus   -> [make_arg_pairs(LoopCount)];
                operator_minus  -> [make_arg_pairs(LoopCount)];
                operator_times  -> [make_arg_pairs(LoopCount)];
@@ -87,8 +89,14 @@ loop(Fun, Caller, LoopCount) ->
                operator_lt     -> [make_arg_pairs(LoopCount)];
                operator_eq     -> [make_arg_pairs(LoopCount)];
                operator_eeq    -> [make_arg_pairs(LoopCount)];
+
+               %% Function calls and looping constructs...
                function_call   -> [LoopCount];
-               mfa_call        -> [?MODULE, mfa_call, LoopCount]
+               mfa_call        -> [?MODULE, mfa_call, LoopCount];
+               list_comp       -> [make_random_inxs(LoopCount, ?OPER_MAX)];
+               list_loop       -> [make_random_inxs(LoopCount, ?OPER_MAX)];
+               binary_comp     -> [list_to_binary(make_random_inxs(LoopCount, ?OPER_MAX))];
+               binary_loop     -> [list_to_binary(make_random_inxs(LoopCount, ?OPER_MAX))]
            end,
     {Time, _Val} = timer:tc(?MODULE, Fun, Args),
     Caller ! {proc_lib, LoopCount, Time},
@@ -166,6 +174,10 @@ make_random_inxs(N, MaxInx, Inxs) when N > 0 ->
 -spec operator_gt    ([{integer(), integer()}]) -> [integer()].
 -spec function_call  (non_neg_integer()) -> ok.
 -spec mfa_call       (module(), atom(), non_neg_integer()) -> ok.
+-spec list_comp      ([non_neg_integer()]) -> ok.
+-spec list_loop      ([non_neg_integer()]) -> ok.
+-spec binary_comp    ([non_neg_integer()]) -> ok.
+-spec binary_loop    ([non_neg_integer()]) -> ok.
 
 operator_plus  (Pairs) -> _ = [A+B || {A,B} <- Pairs], ok.
 operator_minus (Pairs) -> _ = [A-B || {A,B} <- Pairs], ok.
@@ -185,6 +197,17 @@ mfa_call(_M, _F, 0) -> ok;
 mfa_call(M, F, Count) when Count > 0 ->
     M:F(M, F, Count-1).
 
+list_comp(Nums) -> _ = [N || N <- Nums], ok.
+binary_comp(Nums) -> _ = << <<N>> || <<N>> <= Nums >>, ok.
+
+list_loop([]) -> ok;
+list_loop([_H|T]) ->
+    list_loop(T).
+
+binary_loop(<<>>) -> ok;
+binary_loop(<< _C, Rest/binary >>) ->
+    binary_loop(Rest).
+     
 
 %% ============= access funs =====================================================
 -spec list_nth(non_neg_integer(), list(pos_integer())) -> ok.

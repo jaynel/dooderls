@@ -18,10 +18,10 @@ var menu_opts = {
   iterate:
     '<option value="function_call">Function Call</option>\n \
      <option value="mfa_call">Module:Function(Args)</option>\n \
-     <option value="list_comp" disabled>List Comprehension</option>\n \
-     <option value="list_loop" disabled>List Function Loop</option>\n \
-     <option value="binary_comp" disabled>Binary Comprehension</option>\n \
-     <option value="binary_loop" disabled>Binary Function Loop</option>',
+     <option value="list_comp">List Comprehension</option>\n \
+     <option value="list_loop">List Function Loop</option>\n \
+     <option value="binary_comp">Binary Comprehension</option>\n \
+     <option value="binary_loop">Binary Function Loop</option>',
   process:
     '<option value="spawn" disabled>Spawn</option>\n \
      <option value="spawn_link" disabled>Spawn Link</option>\n \
@@ -122,10 +122,18 @@ var menu_opts = {
     mfa_call:
       'Tests M:F(A) calling by decrementing LoopCount until it reaches 0.<br>\
        <p>Loop count: <input name="num_execs" type="number" min="1" max="1000000" value="10000" required> (1 - 1000000)</p>',
-    list_comp: "",
-    list_loop: "",
-    binary_comp: "",
-    binary_loop: "",
+    list_comp:
+      'Tests list comprehension by iterating a list of length LoopCount.<br>\
+       <p>Loop count: <input name="num_execs" type="number" min="1" max="1000000" value="10000" required> (1 - 1000000)</p>',
+    list_loop:
+      'Tests list comprehension by iterating a list of length LoopCount.<br>\
+       <p>Loop count: <input name="num_execs" type="number" min="1" max="1000000" value="10000" required> (1 - 1000000)</p>',
+    binary_comp:
+      'Tests list comprehension by iterating a list of length LoopCount.<br>\
+       <p>Loop count: <input name="num_execs" type="number" min="1" max="1000000" value="10000" required> (1 - 1000000)</p>',
+    binary_loop:
+      'Tests list comprehension by iterating a list of length LoopCount.<br>\
+       <p>Loop count: <input name="num_execs" type="number" min="1" max="1000000" value="10000" required> (1 - 1000000)</p>',
     spawn: "",
     spawn_link: "",
     exit: "",
