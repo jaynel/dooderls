@@ -10,7 +10,11 @@ var menu_opts = {
      <option value="operator_minus">Operator -</option>\n \
      <option value="operator_times">Operator *</option>\n \
      <option value="operator_divide">Operator div</option>\n \
-     <option value="operator_rem">Operator rem</option>',
+     <option value="operator_rem">Operator rem</option>\n \
+     <option value="operator_gt">Operator &gt;</option>\n \
+     <option value="operator_lt">Operator &lt;</option>\n \
+     <option value="operator_eq">Operator ==</option>\n \
+     <option value="operator_eeq">Operator =:=</option>',
   iterate:
     '<option value="function_call">Function Call</option>\n \
      <option value="mfa_call">Module:Function(Args)</option>\n \
@@ -95,6 +99,22 @@ var menu_opts = {
     operator_rem:
       'Tests the remainder operator (rem/2) by randomly generating LoopCount integer pairs<br>\
        then using a list comprehension to compute remainder on them all.<br>\
+       <p>Loop count: <input name="num_execs" type="number" min="1" max="1000000" value="10000" required> (1 - 1000000)</p>',
+    operator_gt:
+      'Tests the greater than operator (&gt;/2) by randomly generating LoopCount integer pairs<br>\
+       then using a list comprehension to compare them.<br>\
+       <p>Loop count: <input name="num_execs" type="number" min="1" max="1000000" value="10000" required> (1 - 1000000)</p>',
+    operator_lt:
+      'Tests the less than operator (&lt;/2) by randomly generating LoopCount integer pairs<br>\
+       then using a list comprehension to compare them.<br>\
+       <p>Loop count: <input name="num_execs" type="number" min="1" max="1000000" value="10000" required> (1 - 1000000)</p>',
+    operator_eq:
+      'Tests the equal operator (==/2) by randomly generating LoopCount integer pairs<br>\
+       then using a list comprehension to compare them.<br>\
+       <p>Loop count: <input name="num_execs" type="number" min="1" max="1000000" value="10000" required> (1 - 1000000)</p>',
+    operator_eeq:
+      'Tests the exact equal operator (=:=/2) by randomly generating LoopCount integer pairs<br>\
+       then using a list comprehension to compare them.<br>\
        <p>Loop count: <input name="num_execs" type="number" min="1" max="1000000" value="10000" required> (1 - 1000000)</p>',
     function_call:
       'Tests function calling by calling decr(LoopCount) until it reaches 0.<br>\

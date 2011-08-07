@@ -11,7 +11,8 @@
 -export([run_exec_test/3, run_access_test/4, loop/3, loop/4]).
 
 %% Choice of tests to run.
--export([operator_plus/1, operator_minus/1, operator_times/1, operator_divide/1, operator_rem/1]).
+-export([operator_plus/1, operator_minus/1, operator_times/1, operator_divide/1, operator_rem/1,
+         operator_gt/1, operator_lt/1, operator_eq/1, operator_eeq/1]).
 -export([function_call/1, mfa_call/3]).
 -export([list_nth/2, list_head/2, binary_raw/2, binary_at/2, tuple_inx/2]).
 
@@ -82,6 +83,10 @@ loop(Fun, Caller, LoopCount) ->
                operator_times  -> [make_arg_pairs(LoopCount)];
                operator_divide -> [make_arg_pairs(LoopCount)];
                operator_rem    -> [make_arg_pairs(LoopCount)];
+               operator_gt     -> [make_arg_pairs(LoopCount)];
+               operator_lt     -> [make_arg_pairs(LoopCount)];
+               operator_eq     -> [make_arg_pairs(LoopCount)];
+               operator_eeq    -> [make_arg_pairs(LoopCount)];
                function_call   -> [LoopCount];
                mfa_call        -> [?MODULE, mfa_call, LoopCount]
            end,
@@ -158,6 +163,7 @@ make_random_inxs(N, MaxInx, Inxs) when N > 0 ->
 -spec operator_times ([{integer(), integer()}]) -> ok.
 -spec operator_divide([{integer(), integer()}]) -> ok.
 -spec operator_rem   ([{integer(), integer()}]) -> ok.
+-spec operator_gt    ([{integer(), integer()}]) -> [integer()].
 -spec function_call  (non_neg_integer()) -> ok.
 -spec mfa_call       (module(), atom(), non_neg_integer()) -> ok.
 
@@ -166,6 +172,10 @@ operator_minus (Pairs) -> _ = [A-B || {A,B} <- Pairs], ok.
 operator_times (Pairs) -> _ = [A*B || {A,B} <- Pairs], ok.
 operator_divide(Pairs) -> _ = [A div B || {A,B} <- Pairs], ok.
 operator_rem   (Pairs) -> _ = [A rem B || {A,B} <- Pairs], ok.
+operator_gt    (Pairs) -> _ = [if A < B -> 1; true -> 0 end || {A,B} <- Pairs].
+operator_lt    (Pairs) -> _ = [if A > B -> 1; true -> 0 end || {A,B} <- Pairs].
+operator_eq    (Pairs) -> _ = [if A == B -> 1; true -> 0 end || {A,B} <- Pairs].
+operator_eeq   (Pairs) -> _ = [if A =:= B -> 1; true -> 0 end || {A,B} <- Pairs].
     
 function_call(0) -> ok;
 function_call(Count) when Count > 0 ->
