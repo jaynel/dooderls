@@ -6,11 +6,11 @@ var menu_opts = {
      <option value="binary_at">Binary Module</option>\n \
      <option value="tuple_inx">Tuple Index</option>',
   operator:
-    '<option value="operator_plus" disabled>Operator +</option>\n \
-     <option value="operator_minus" disabled>Operator -</option>\n \
-     <option value="operator_times" disabled>Operator *</option>\n \
-     <option value="operator_divide" disabled>Operator /</option>\n \
-     <option value="operator_modulo" disabled>Operator %</option>',
+    '<option value="operator_plus">Operator +</option>\n \
+     <option value="operator_minus">Operator -</option>\n \
+     <option value="operator_times">Operator *</option>\n \
+     <option value="operator_divide">Operator div</option>\n \
+     <option value="operator_rem">Operator rem</option>',
   iterate:
     '<option value="function_call">Function Call</option>\n \
      <option value="mfa_call">Module:Function(Args)</option>\n \
@@ -76,11 +76,26 @@ var menu_opts = {
        elements and timing the execution of element/2.<br>\
        <p>Tuple size: <input name="datasize" type="number" min="1" max="10000" value="100" required> (1 - 10000)</p>\
        <p>Accesses: <input name="num_execs" type="number" min="1" max="9999" value="1000" required> (1 - 9999)</p>',
-    operator_plus: "",
-    operator_minus: "",
-    operator_times: "",
-    operator_divide: "",
-    operator_modulo: "",
+    operator_plus:
+      'Tests the plus operator (+/2) by randomly generating LoopCount integer pairs<br>\
+       then using a list comprehension to add them all.<br>\
+       <p>Loop count: <input name="num_execs" type="number" min="1" max="1000000" value="10000" required> (1 - 1000000)</p>',
+    operator_minus:
+      'Tests the minus operator (-/2) by randomly generating LoopCount integer pairs<br>\
+       then using a list comprehension to subtract them all.<br>\
+       <p>Loop count: <input name="num_execs" type="number" min="1" max="1000000" value="10000" required> (1 - 1000000)</p>',
+    operator_times:
+      'Tests the multiply operator (*/2) by randomly generating LoopCount integer pairs<br>\
+       then using a list comprehension to multiply them all.<br>\
+       <p>Loop count: <input name="num_execs" type="number" min="1" max="1000000" value="10000" required> (1 - 1000000)</p>',
+    operator_divide:
+      'Tests the divide operator (div/2) by randomly generating LoopCount integer pairs<br>\
+       then using a list comprehension to divide them all.<br>\
+       <p>Loop count: <input name="num_execs" type="number" min="1" max="1000000" value="10000" required> (1 - 1000000)</p>',
+    operator_rem:
+      'Tests the remainder operator (rem/2) by randomly generating LoopCount integer pairs<br>\
+       then using a list comprehension to compute remainder on them all.<br>\
+       <p>Loop count: <input name="num_execs" type="number" min="1" max="1000000" value="10000" required> (1 - 1000000)</p>',
     function_call:
       'Tests function calling by calling decr(LoopCount) until it reaches 0.<br>\
        <p>Loop count: <input name="num_execs" type="number" min="1" max="1000000" value="10000" required> (1 - 1000000)</p>',

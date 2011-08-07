@@ -11,10 +11,14 @@
 -export([run_exec_test/3, run_access_test/4, loop/3, loop/4]).
 
 %% Choice of tests to run.
+-export([operator_plus/1, operator_minus/1, operator_times/1, operator_divide/1, operator_rem/1]).
 -export([function_call/1, mfa_call/3]).
 -export([list_nth/2, list_head/2, binary_raw/2, binary_at/2, tuple_inx/2]).
 
 -include("dk_bench.hrl").
+
+-define(OPER_MAX, 100).
+
 
 -type timing_result()   :: {loop_time, pos_integer()}.
 -type run_result()      :: {proc_lib, pos_integer(), [timing_result(), ...]}.
@@ -73,8 +77,13 @@ start_loop(Fun, Caller, LoopCount) ->
 
 loop(Fun, Caller, LoopCount) ->
     Args = case Fun of
-               function_call ->  [LoopCount];
-               mfa_call ->       [?MODULE, mfa_call, LoopCount]
+               operator_plus   -> [make_arg_pairs(LoopCount)];
+               operator_minus  -> [make_arg_pairs(LoopCount)];
+               operator_times  -> [make_arg_pairs(LoopCount)];
+               operator_divide -> [make_arg_pairs(LoopCount)];
+               operator_rem    -> [make_arg_pairs(LoopCount)];
+               function_call   -> [LoopCount];
+               mfa_call        -> [?MODULE, mfa_call, LoopCount]
            end,
     {Time, _Val} = timer:tc(?MODULE, Fun, Args),
     Caller ! {proc_lib, LoopCount, Time},
@@ -122,6 +131,16 @@ make_tuple_args(TupleSize, LoopCount) ->
 make_bin(Size) ->   list_to_binary(lists:seq(1,Size)).
 make_tuple(Size) -> list_to_tuple(lists:seq(1,Size)).
 
+make_arg_pairs(LoopCount) ->
+    Numbers = make_random_inxs(LoopCount*2, ?OPER_MAX),
+    return_pairs(Numbers, []).
+
+return_pairs([], Pairs) -> Pairs;
+return_pairs([A,B | Rest], Pairs) -> 
+    O1 = A - ?OPER_MAX div 2,
+    O2 = case B - ?OPER_MAX div 2 of 0 -> 1; Num -> Num end,
+    return_pairs(Rest, [{O1, O2} | Pairs]).
+
 %% Random indexes are in the range 1 - N-1 so that bin and tuple work.
 make_random_inxs(Num, MaxInx) ->
     {A1, A2, A3} = now(),
@@ -134,9 +153,20 @@ make_random_inxs(N, MaxInx, Inxs) when N > 0 ->
 
 
 %% ============= exec funs =====================================================
--spec function_call(non_neg_integer()) -> ok.
--spec mfa_call(module(), atom(), non_neg_integer()) -> ok.
+-spec operator_plus  ([{integer(), integer()}]) -> ok.
+-spec operator_minus ([{integer(), integer()}]) -> ok.
+-spec operator_times ([{integer(), integer()}]) -> ok.
+-spec operator_divide([{integer(), integer()}]) -> ok.
+-spec operator_rem   ([{integer(), integer()}]) -> ok.
+-spec function_call  (non_neg_integer()) -> ok.
+-spec mfa_call       (module(), atom(), non_neg_integer()) -> ok.
 
+operator_plus  (Pairs) -> _ = [A+B || {A,B} <- Pairs], ok.
+operator_minus (Pairs) -> _ = [A-B || {A,B} <- Pairs], ok.
+operator_times (Pairs) -> _ = [A*B || {A,B} <- Pairs], ok.
+operator_divide(Pairs) -> _ = [A div B || {A,B} <- Pairs], ok.
+operator_rem   (Pairs) -> _ = [A rem B || {A,B} <- Pairs], ok.
+    
 function_call(0) -> ok;
 function_call(Count) when Count > 0 ->
     function_call(Count-1).

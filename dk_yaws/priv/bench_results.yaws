@@ -7,12 +7,15 @@ out(A) ->
   bench(list_to_atom(BenchType), list_to_atom(Bench), list_to_integer(DataSize),
         list_to_integer(ExecCount), list_to_integer(NumTimes)).
 
-bench(iterate, FunType, _DataSize, ExecCount, NumTimes) ->
-    Proplist = dk_bench_server:exec(FunType, ExecCount, NumTimes),
-    {content, "application/json", result_to_json(Proplist)};
 bench(data_access, FunType, DataSize, ExecCount, NumTimes) ->
   Proplist = dk_bench_server:access(FunType, DataSize, ExecCount, NumTimes),
   {content, "application/json", result_to_json(Proplist)};
+bench(operator, FunType, _DataSize, ExecCount, NumTimes) ->
+    Proplist = dk_bench_server:exec(FunType, ExecCount, NumTimes),
+    {content, "application/json", result_to_json(Proplist)};
+bench(iterate, FunType, _DataSize, ExecCount, NumTimes) ->
+    Proplist = dk_bench_server:exec(FunType, ExecCount, NumTimes),
+    {content, "application/json", result_to_json(Proplist)};
 bench(message, recv_msgs, _DataSize, NumMsgs, NumTimes) ->
   Proplist = dk_bench_server:mq_raw(NumMsgs, NumTimes),
   {content, "application/json", result_to_json(Proplist, recv_time)};
