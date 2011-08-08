@@ -170,3 +170,17 @@ var menu_opts = {
     var bench_desc = document.getElementById("benchmark_desc");
     bench_desc.innerHTML = form_desc[benchmark];
   }
+
+  function redisplay_type_menu(form) {
+    var bench_type = form.bench_type;
+    var type = bench_type.options[bench_type.selectedIndex].value;
+    change_bench_menu(type);
+    redisplay_bench_menu(form);
+  }
+
+  function redisplay_bench_menu(form) {
+    var bench = form.bench;
+    var benchmark = bench.options[bench.selectedIndex].value;
+    change_bench_desc(benchmark);
+  }
+

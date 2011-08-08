@@ -21,7 +21,7 @@
   }
   </style>
 </head>
-<body>
+<body onload="change_bench_menu('data_access'); change_bench_desc('list_nth')">
   <div class="page">
    <div class="content">
     <header class="page_hdr">
@@ -69,9 +69,7 @@
 
         <form name="benchmark_request" method="get">
             <p>
-              <select name="bench_type" style="text-align:right" required
-                  onload="change_bench_menu('data_access')"
-                  onchange="var type = this.options[this.selectedIndex].value; change_bench_menu(type)" >
+              <select name="bench_type" style="text-align:right" required onchange="redisplay_type_menu(this.form)" >
                 <option value="data_access" default>Data Access</option>
                 <option value="operator">Operators</option>
                 <option value="iterate">Iteration</option>
@@ -79,9 +77,7 @@
                 <option value="message">Messaging</option>
                 <option value="data_manip">Data Manipulation</option>
               </select>
-              <select name="bench" style="text-align:right" required
-                  onload="change_bench_desc('list_nth')"
-                  onchange="var benchmark = this.options[this.selectedIndex].value; change_bench_desc(benchmark)" >
+              <select name="bench" style="text-align:right" required onchange="redisplay_bench_menu(this.form)" >
               </select>
             </p>
 
