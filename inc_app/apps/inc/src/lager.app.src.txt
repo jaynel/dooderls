@@ -1,0 +1,15 @@
+%% -*- tab-width: 4;erlang-indent-level: 4;indent-tabs-mode: nil -*-
+%% ex: ts=4 sw=4 et
+{application, lager,
+ [
+  {description, "Included Lager"},
+  {vsn, "0.9.4"},
+  {id, "Lager"},
+  {modules,      [inc_app]},
+  {registered,   [inc_sup]},
+  {start_phases, [{go, []}]},
+  {applications, [kernel, stdlib, sasl]},
+  {mod, {lager_app, []}},
+  {env, []}
+ ]   
+}.
