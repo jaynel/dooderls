@@ -22,10 +22,12 @@ gc:
 	@rm -f */*~
 	@rm -f */*/*~
 	@rm -f */*/*/*~
+	@rm -f */*/*/*/*~
 	@rm -f erl_crash.dump
 	@rm -f */erl_crash.dump
 	@rm -f */*/erl_crash.dump
 	@rm -f */*/*/erl_crash.dump
+	@rm -f */*/*/*/erl_crash.dump
 
 rel: all
 	@echo 'Generating dk_bench release'
