@@ -9,6 +9,7 @@
 -export([init/1]).
 
 -include_lib("lager/include/lager.hrl").
+-include("inc_lager.hrl").
 
 %% ===================================================================
 %% API functions

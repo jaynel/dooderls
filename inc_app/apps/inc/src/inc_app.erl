@@ -5,6 +5,8 @@
 %% Application callbacks
 -export([start/0, start/2, start_phase/3, stop/1]).
 
+-include("inc_lager.hrl").
+
 
 %% ===================================================================
 %% Application callbacks
@@ -28,6 +30,7 @@ finish_start(Pid) ->
 
 %% @doc Start the application's root supervisor from boot.
 start(StartType, StartArgs) ->
+    ?TT_INFO_MSG("LAGER: Starting", []),
     error_logger:info_msg("Starting ~p:start(~p, ~p)~n",
                           [?MODULE, StartType, StartArgs]),
     {ok, Pid} = inc_sup:start_link(),
