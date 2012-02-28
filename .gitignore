@@ -12,6 +12,7 @@ erl_crash.dump
 */src/*.beam
 */.eunit
 rel/dk_bench/
+inc_app/log/
 inc_app/rel/
 inc_app/apps/inc/ebin/
 inc_app/apps/inc/log/
