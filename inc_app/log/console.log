@@ -1,0 +1,7 @@
+2012-02-27 17:01:52.861 [info] <0.58.0> inc_server start
+2012-02-27 17:01:52.868 [info] <0.58.0>@inc_server:run:15 inc_server started 2
+2012-02-27 17:01:52.871 [info] <0.51.0> Starting inc_app:start_phase(init, normal, [])
+2012-02-27 17:01:52.872 [info] <0.51.0> Starting inc_app:start_phase(go, normal, [])
+2012-02-27 17:01:52.872 [info] <0.6.0> Application inc started on node nonode@nohost
+2012-02-27 17:03:32.869 [info] <0.58.0>@inc_server:run:20 inc_server ended
+2012-02-27 17:03:32.869 [info] <0.58.0> Stopping inc_server:run/0
