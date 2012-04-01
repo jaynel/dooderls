@@ -1,0 +1,23 @@
+Summary
+
+Concurrency has become the number one goal of scalable systems. This means dealing with inconsistency, non-determinism and distributed computation. The existing OTP services were geared around single process constructs that are used as components of a distributed architecture. The next generation must embrace multi-core and distributed systems, but do so in a way that makes common, complicated patterns of concurrency accessible to all programmers.
+
+Issues
+
+  - Replace build and bundle deployment with rebar
+  - Rework application, included_applications and managing applications
+  - Eliminate supervisor hierarchy in favor of linked networks of processes
+  - Incorporate pooled process concepts inside OTP objects
+  - Re-evaluate gen_stream / gen_fsm in the context of pooled resources
+  - Create documentation that reflects the OTP components as related
+  - Consider logging part of a high-volume distributed system
+  - Nodes, montioring and clustering, distributed erlang without mesh
+  - Distributed nodes should use more than one socket
+
+
+Concepts
+
+ - Coop: cooperative processing pattern (digraph, pool and asynch/synch access)
+ - Mgr: temporary supervision cluster
+ - 
+
