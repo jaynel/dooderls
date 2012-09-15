@@ -1,7 +1,7 @@
 {application, dk_bench,
  [
   {id,  "DK-bench"},
-  {vsn, "0.0.1"},
+  {vsn, "0.0.2"},
   {description, "Benchmark test server"},
   {modules, []},
   {registered, [dk_bench_app, dk_bench_sup, dk_bench_server]},
