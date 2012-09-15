@@ -16,6 +16,9 @@ dial_dkb:
 dial_dky:
 	dialyzer -Wrace_conditions dk_yaws/ebin
 
+dial_dky:
+	dialyzer -Wrace_conditions
+
 gc:
 	@echo 'Removing all emacs backup files'
 	@rm -f *~
