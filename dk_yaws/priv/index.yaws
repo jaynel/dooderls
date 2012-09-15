@@ -10,14 +10,19 @@
   <link rel="stylesheet" href="/css/theme.css" media="screen, projection">
 
   <style>
-  .bench_graph div {
+  .bench_graph svg {
     font: 10px sans-serif;
     background-color: #9D2D23;
     text-align: right;
     padding: 3px;
     margin: 1px;
     margin-left:20px;
-    color: white;
+    fill: #9D2D23;
+  }
+
+  .bench_graph rect {
+    stroke: white;
+    fill: #9D2D23;
   }
   </style>
 </head>
@@ -33,39 +38,6 @@
         <h2>Benchmark Selection</h2>
       </header>
       <section class="bench_form" style="margin-bottom:20px">
-
-        <script src="/js/d3.min.js"></script>
-        <script src="/js/bench_menus.js"></script>
-        <script>
-
-          function d3_submit() {
-            var form = document.benchmark_request;
-            var datasize = form.datasize.value ? form.datasize.value : '0';
-            var url = [
-                       window.location, 'bench_results.yaws?',
-                       'bench_type=',   form.bench_type.value,
-                       '&bench=',       form.bench.value,
-                       '&datasize=',    datasize,
-                       '&num_execs=',   form.num_execs.value,
-                       '&test_times=',  form.test_times.value
-                      ].join('');
-
-            d3.json(url, function(json) {
-                var len = json.results.length;
-                var data = [];
-                for (i=0;i<len-1;i++) {
-                  data.push(json.results[i].loop_time.npm);
-                }
-                var chart = d3.select(".bench_graph");
-                chart.selectAll("div").remove();
-                chart = d3.select(".bench_graph");
-                chart.selectAll("div").data(data).enter().append("div")
-                     .style("width", function(d) { return d * 2 + "px"; })
-                     .text(function(d) { return d; });
-                var x = d3.scale.linear().domain([0, d3.max(data)]).range(["0px", "250px"]);
-            });
-          }
-        </script>
 
         <form name="benchmark_request" method="get">
             <p>
@@ -94,7 +66,7 @@
       <header class="main_hdr">
         <h2>Performance Results</h2>
       </header>
-      <section id="bench_graph" class="bench_graph">
+      <section class="graph_area">
       </section>
       <section class="bench_data">
       </section>
@@ -107,5 +79,67 @@
     </footer>
    </div> <!-- /end .content -->
   </div> <!-- /end .page -->
+        <script defer src="/js/d3.min.js"></script>
+        <script defer src="/js/bench_menus.js"></script>
+        <script defer>
+
+          function d3_submit() {
+            var form = document.benchmark_request;
+            var datasize = form.datasize.value ? form.datasize.value : '0';
+            var url = [
+                       window.location, 'bench_results.yaws?',
+                       'bench_type=',   form.bench_type.value,
+                       '&bench=',       form.bench.value,
+                       '&datasize=',    datasize,
+                       '&num_execs=',   form.num_execs.value,
+                       '&test_times=',  form.test_times.value
+                      ].join('');
+
+            d3.json(url, function(json) {
+                var len = json.results.length;
+                var data = [];
+                for (i=0;i<len-1;i++) {
+                  data.push(json.results[i].loop_time.npm);
+                }
+                var chart = d3.select(".graph_area");
+                chart.selectAll("svg").remove();
+
+                chart.selectAll("svg").data(data).enter().append("svg:svg")
+                     .attr("width", 600).attr("height", 20);
+                var x = d3.scale.linear().domain([0, d3.max(data)]).range([0, 600]);
+  
+                chart.selectAll("rect").data(data).enter().append("svg:rect")
+                     .attr("class", "bench_graph")
+                     .attr("y", function(d, i) { return i * 20; })
+                     .attr("width", x).attr("height", 20);
+                var y = d3.scale.ordinal().domain(data).rangeBands([0, 120]);
+                chart.selectAll("rect").data(data).enter().append("svg:rect")
+                     .attr("y", y).attr("width", x).attr("height", y.rangeBand());
+
+                chart.selectAll("text").data(data).enter().append("svg:text")
+                     .attr("x", x).attr("y", function(d) { return y(d) + y.rangeBand() / 2; })
+                     .attr("dx", -3).attr("dy", ".35em")
+                     .attr("text-anchor", "end").text(String);
+
+//               var chart = d3.select(".bench_graph").append("svg:svg")
+                chart.selectAll("content").append("svg:svg")
+                              .attr("class", "bench_graph")
+                              .attr("width", 600).attr("height", 140)
+                              .append("svg:g").attr("transform", "translate(10,15)");
+
+                chart.selectAll("line").data(x.ticks(10)).enter().append("svg:line")
+                     .attr("x1", x).attr("x2", x)
+                     .attr("y1", 0).attr("y2", 120)
+                     .attr("stroke", "#ccc");
+
+                chart.selectAll("text.rule").data(x.ticks(10)).enter().append("svg:text")
+                     .attr("class", "rule")
+                     .attr("x", x).attr("y", 0)
+                     .attr("dy", -3).attr("text-anchor", "middle").text(String);
+
+                chart.append("svg:line").attr("y1", 0).attr("y2", 120).attr("stroke", "#000");
+            });
+          }
+        </script>
 </body>
 </html>

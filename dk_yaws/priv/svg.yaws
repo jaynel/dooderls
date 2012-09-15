@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8">
+  <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <meta name="Copyright" content="&copy;2005-2006 DuoMark International, Inc." />
+  <title>DuoMark Comparative Erlang Benchmarking</title>
+
+  <link rel="stylesheet" href="/css/reset.css" media="screen, projection">
+  <link rel="stylesheet" href="/css/theme.css" media="screen, projection">
+
+  <style>
+  .bench_graph svg {
+    font: 10px sans-serif;
+    background-color: #9D2D23;
+    text-align: right;
+    padding: 3px;
+    margin: 1px;
+    margin-left:20px;
+    fill: #9D2D23;
+  }
+
+  .bench_graph rect {
+    stroke: white;
+    fill: #9D2D23;
+  }
+  </style>
+</head>
+<body>
+  <svg xmlns="http://www.w3.org/2000/
+         svg width="300" height="300" >
+
+<rect
+  x="5"  y="50"
+  width="150" height="30"
+  style="fill:yellow"
+/>
+
+   <text style="font-size:30;
+                stroke: blue"
+        x="10"  y="170">
+
+    Hello SVG World
+  </text>
+ </svg>
+ </body>
+</html>
+
