@@ -7,17 +7,19 @@ Issues
   - Replace build and bundle deployment with rebar
   - Rework application, included_applications and managing applications
   - Eliminate supervisor hierarchy in favor of linked networks of processes
-  - Incorporate pooled process concepts inside OTP objects
-  - Re-evaluate gen_stream / gen_fsm in the context of pooled resources
+  - Re-evaluate gen_server / gen_fsm in the context of pooled resources
   - Create documentation that reflects the OTP components as related
   - Consider logging part of a high-volume distributed system
-  - Nodes, montioring and clustering, distributed erlang without mesh
-  - Distributed nodes should use more than one socket
+  - Nodes, monitoring, distributed erlang without mesh
 
+Features
+  - Incorporate pooled process concepts inside OTP objects
+  - Add memory of init and restarts in supervision
+  - Enable easy configuration of services and clusters of services
+  - Distributed erlang with more than one comms socket
 
 Concepts
 
  - Coop: cooperative processing pattern (digraph, pool and asynch/synch access)
  - Mgr: temporary supervision cluster
- - 
 
