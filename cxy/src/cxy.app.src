@@ -1,14 +1,15 @@
 %% -*- tab-width: 4;erlang-indent-level: 4;indent-tabs-mode: nil -*-
 %% ex: ts=4 sw=4 et
-{application, tts_redis_api,
+{application, cxy,
  [
-  {description, "TigerText Erlang Redis API Library"},
+  {description, "Concurrency Control experiments"},
   {vsn, "1.0.0"},
-  {id, "tt_redis_api"},
+  {id, "cxy"},
   {modules,      []},
   {registered,   []},
   {applications, [kernel, stdlib, sasl]},
-  {included_applications, []},
+  {included_applications, [dk_cxy]},
+  {mod, {cxy, []}},
   {env, []}
  ]
 }.

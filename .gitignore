@@ -19,3 +19,5 @@ inc_app/apps/inc/log/
 deps/
 inc_app/rel/
 cmt.txt
+.*.plt
+_rel/
